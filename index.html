@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>랜덤 게임 닉네임</title>
+    <style>
+		body {
+			background-color: #f8f8f8;
+			font-family: Arial, sans-serif;
+			color: #333;
+			text-align: center;
+			margin: 0;
+			padding: 0;
+		}
+        h1 {
+		margin-top: 50px;
+		font-size: 3em;
+		font-weight: normal;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+	
+	label {
+		display: block;
+		margin-top: 30px;
+		font-size: 1.2em;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+	
+	select {
+		margin-top: 10px;
+		font-size: 1.2em;
+		padding: 10px;
+		border: none;
+		border-radius: 5px;
+		background-color: #fff;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+		transition: all 0.2s ease-in-out;
+	}
+	
+	select:hover,
+	select:focus {
+		outline: none;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	}
+	
+	button {
+		margin-top: 30px;
+		font-size: 1.2em;
+		padding: 10px 30px;
+		border: none;
+		border-radius: 5px;
+		background-color: #4CAF50;
+		color: #fff;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+	}
+	
+	button:hover {
+		background-color: #3e8e41;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+	}
+	
+	#random-word {
+		margin-top: 50px;
+		font-size: 3em;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+    
+</style>
+
+</head>
+<body>
+	<h1>게임 이름은 최대글자로 어그로끌자</h1>
+	<label for="length-select">글자 수 선택:</label>
+	<select id="length-select" onchange="generateRandomWord()">
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4" selected>4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="11">11</option>
+		<option value="12">12</option>
+		<option value="13">13</option>
+		<option value="14">14</option>
+		<option value="15">15</option>
+		<option value="16">16</option>
+		<option value="17">17</option>
+		<option value="18">18</option>
+		<option value="19">19</option>
+		<option value="20">20</option>
+	</select>
+	<button onclick="generateRandomWord()">닉네임만들기</button>
+	<p id="random-word"></p>
+
+	<script>
+		const CHOSUNG_COUNT = 14; // 사용하는 초성의 개수
+		const JUNGSUNG_COUNT = 10; // 사용하는 중성의 개수
+		const JONGSUNG_COUNT = 14; // 사용하는 종성의 개수
+		const CHOSUNG_START = 0x1100; // 초성 유니코드 시작 값
+		const JUNGSUNG_START = 0x1161; // 중성 유니코드 시작 값
+		const JONGSUNG_START = 0x11a8; // 종성 유니코드 시작 값
+
+		// 사용할 한글 1음절을 저장한 배열
+		const NOT_ALLOWED = [
+			"ㅇ", "ㅎ", "ㄹ", "ㄷ", "ㅌ", "ㅈ", "ㅊ", "ㅉ", "ㄲ", "ㅃ", "ㅆ", "ㅏ", "ㅑ", "ㅓ", "ㅕ", "ㅗ", "ㅛ", "ㅜ", "ㅠ", "ㅡ", "ㅣ"
+		];
+
+		// 배열에 포함된 값인지 확인하는 함수
+		function isNotAllowed(letter) {
+			return NOT_ALLOWED.indexOf(letter) > -1;
+		}
+
+		// 무작위 단어 생성 함수
+		function generateRandomWord() {
+			const length = document.getElementById("length-select").value;
+			let result = "";
+			for (let i = 0; i < length; i++) {
+				const chosungCodePoint = CHOSUNG_START + Math.floor(Math.random() * CHOSUNG_COUNT);
+				const jungsungCodePoint = JUNGSUNG_START + Math.floor(Math.random() * JUNGSUNG_COUNT);
+				const jongsungCodePoint = Math.random() > 0.5 ? JONGSUNG_START + Math.floor(Math.random() * JONGSUNG_COUNT) : 0;
+				const codePoints = [chosungCodePoint, jungsungCodePoint, jongsungCodePoint].filter(cp => cp !== 0);
+				result += String.fromCodePoint(...codePoints);
+			}
+			document.getElementById("random-word").innerHTML = result;
+		}
+	</script>
+    <div>
+        <ins class="kakao_ad_area" style="display:none;"
+data-ad-unit = "DAN-T95pbj0F3BVPJmcu"
+data-ad-width = "300"
+data-ad-height = "250"></ins>
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+    </div>
+</body>
+</html>
